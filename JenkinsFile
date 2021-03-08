@@ -9,9 +9,7 @@
          checkout scm
      }
      stage('Build IoT Edge Modules') {
-         withCredentials([string(credentialsId: 'IotHubConnectionString', variable: 'IOTHUB_CONNECTION_STRING'), string(credentialsId: 'DeviceConnectionString', variable: 'DEVICE_CONNECTION_STRING')]) {
-         sh 'iotedgedev deploy'
-         }
+         sh 'iotedgedev build'
      }
 
      stage('Publish IoT Edge Modules') {

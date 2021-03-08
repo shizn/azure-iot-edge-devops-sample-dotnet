@@ -9,8 +9,10 @@
      }
 
      stage('Build IoT Edge Modules') {
-         //sh 'iotedgedev build'
-         sh 'docker pull hello-world'
+         withEnv(['PATH+EXTRA=/var/lib/jenkins/.local/bin/']) {
+             //sh 'iotedgedev build'
+             sh 'docker pull hello-world'
+         }
      }
 
      stage('Publish IoT Edge Modules') {

@@ -9,7 +9,8 @@
      }
 
      stage('Build IoT Edge Modules') {
-         sh 'iotedgedev build'
+         //sh 'iotedgedev build'
+         sh 'docker pull hello-world'
      }
 
      stage('Publish IoT Edge Modules') {

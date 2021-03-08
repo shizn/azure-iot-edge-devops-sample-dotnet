@@ -9,7 +9,7 @@
 
      stage('Build IoT Edge Modules') {
          withEnv(['PATH+EXTRA=/var/lib/jenkins/.local/bin/']) {
-             def BUILD_BUILDID=${env.BUILD_NUMBER}
+             def BUILD_BUILDID=currentBuild.number
              sh '''
                  iotedgedev build
              '''

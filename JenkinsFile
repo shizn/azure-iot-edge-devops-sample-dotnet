@@ -8,10 +8,7 @@
      }
 
      stage('Build IoT Edge Modules') {
-         withEnv(['PATH+EXTRA=/var/lib/jenkins/.local/bin/']) {
-             environment {
-                 BUILD_BUILDID="${env.BUILD_NUMBER}"
-             }
+         withEnv(['PATH+EXTRA=/var/lib/jenkins/.local/bin/','BUILD_BUILDID="${env.BUILD_NUMBER}"']) {
              sh '''
                  iotedgedev build
              '''

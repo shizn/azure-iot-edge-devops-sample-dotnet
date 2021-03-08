@@ -1,8 +1,7 @@
  node {
  withEnv(['AZURE_SUBSCRIPTION_ID=154ee7ad-4c78-4b1f-97d5-8c534ec45bd6',
          'AZURE_TENANT_ID=72f988bf-86f1-41af-91ab-2d7cd011db47',
-         'ACR_ADDRESS=xshiacr.azurecr.io',
-         'BUILD_BUILDID=${env.BUILD_NUMBER}']) {
+         'ACR_ADDRESS=xshiacr.azurecr.io']) {
      stage('Init') {
          cleanWs()
          checkout scm
@@ -10,6 +9,7 @@
 
      stage('Build IoT Edge Modules') {
          withEnv(['PATH+EXTRA=/var/lib/jenkins/.local/bin/']) {
+             def BUILD_BUILDID=${env.BUILD_NUMBER}
              sh '''
                  iotedgedev build
              '''

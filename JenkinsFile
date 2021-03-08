@@ -3,7 +3,7 @@
          "AZURE_TENANT_ID=72f988bf-86f1-41af-91ab-2d7cd011db47",
          "ACR_ADDRESS=xshiacr.azurecr.io",
          "BUILD_BUILDID=${env.BUILD_NUMBER}",
-         'PATH+EXTRA=/var/lib/jenkins/.local/bin/']) {
+         "PATH+EXTRA=/var/lib/jenkins/.local/bin/"]) {
      stage('Init') {
          cleanWs()
          checkout scm

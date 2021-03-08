@@ -4,7 +4,28 @@
          "ACR_ADDRESS=xshiacr.azurecr.io",
          "BUILD_BUILDID=${env.BUILD_NUMBER}",
          "PATH+EXTRA=/var/lib/jenkins/.local/bin/"]) {
-    
+     stage('Init') {
+         cleanWs()
+         checkout scm
+     }
+     stage('Build IoT Edge Modules') {
+         withCredentials([string(credentialsId: 'IotHubConnectionString', variable: 'IOTHUB_CONNECTION_STRING'), string(credentialsId: 'DeviceConnectionString', variable: 'DEVICE_CONNECTION_STRING')]) {
+         sh 'iotedgedev deploy'
+         }
+     }
+
+     stage('Publish IoT Edge Modules') {
+         // login Azure
+         withCredentials([usernamePassword(credentialsId: 'AzureServicePrincipal', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID'), usernamePassword(credentialsId: 'AzureContainerRegistry', passwordVariable: 'ACR_USERNAME', usernameVariable: 'ACR_PASSWORD')]) {
+         sh '''
+             az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
+             az account set -s $AZURE_SUBSCRIPTION_ID
+             az acr login -n $ACR_ADDRESS -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET
+         '''
+         }
+         sh 'iotedgedev push'
+         }
+     }
      stage('Create IoT Edge Deployment') {
          withCredentials([string(credentialsId: 'IotHubConnectionString', variable: 'IOTHUB_CONNECTION_STRING'), string(credentialsId: 'DeviceConnectionString', variable: 'DEVICE_CONNECTION_STRING')]) {
          sh 'iotedgedev deploy'

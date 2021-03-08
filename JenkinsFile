@@ -26,8 +26,9 @@
          }
      }
      
-     stage('Create IoT Edge Deployment')
+     stage('Create IoT Edge Deployment') {
          withCredentials([string(credentialsId: 'IotHubConnectionString', variable: 'IOTHUB_CONNECTION_STRING'), string(credentialsId: 'DeviceConnectionString', variable: 'DEVICE_CONNECTION_STRING')]) {
          sh 'iotedgedev deploy'
          }
+     }
  }
